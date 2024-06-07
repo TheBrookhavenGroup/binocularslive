@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block title %}
+      <title>Binoculars</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block sidebar %}
+      <!-- insert default navigation text for every page -->
+    {% endblock %}
+    {% block content %}
+        <img src="{% v_static 'binocularslive/pexels-pixabay-60629.jpg' %}" width="500">
+    {% endblock %}
+  </body>
+</html>
