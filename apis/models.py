@@ -9,8 +9,10 @@ class ApiKey(models.Model):
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     organization = models.CharField(max_length=100, blank=True)
-    n_allowed_requests = models.IntegerField(default=100)
+    n_allowed_requests = models.IntegerField(default=100, blank=True, null=True)
     n_requests = models.IntegerField(default=0)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return self.key

@@ -3,11 +3,14 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from binocularslive import views
-from apis.views import HelloView, ByeView
+from apis.views import SplitView
+
+title = "Binoculars Live"
+admin.site.site_header = title
+admin.site.site_title = title
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('admin/', admin.site.urls),
-    path('hello/', HelloView.as_view(), name='hello'),
-    path('bye/', ByeView.as_view(), name='bye'),
+    path('split/', SplitView.as_view(), name='split'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
