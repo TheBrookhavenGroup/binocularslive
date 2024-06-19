@@ -1,5 +1,5 @@
 from datetime import date, timedelta
-from django.test import TestCase, Client
+from django.test import TestCase, Client, tag
 from users.models import Member
 from apis.models import ApiKey
 from .multi import sequential_query, run_parallel_query
@@ -72,6 +72,7 @@ class TestSplitPermissions(SplitBaseTest):
         self.assertEqual(response.status_code, 200)
 
 
+@tag("inhibit_test")
 class TestMulti(SplitBaseTest):
     def setUp(self):
         super().setUp()
