@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import configparser
 from tbgutils import dt as mc_dt
+from django.core.management.utils import get_random_secret_key
 
 
 config_file = '/Users/ms/.binocularslive'
@@ -18,6 +19,7 @@ if os.path.exists(config_file):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = config['DJANGO']['DEBUG'].lower() == 'true'
 else:
+    SECRET_KEY = get_random_secret_key()
     # This should only be used in github action ci_testing.yml.
     POSTGRES_USER = os.environ['POSTGRES_USER']
     POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
