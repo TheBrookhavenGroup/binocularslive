@@ -21,7 +21,7 @@ else:
     # This should only be used in github action ci_testing.yml.
     POSTGRES_USER = os.environ['POSTGRES_USER']
     POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
-    POSTGRES_DB = f"{config['POSTGRES']['DB']}_test"
+    POSTGRES_DB = f"binocularslive_test"
 
 # Build paths inside the worth like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'binocularslive.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'binocularslive',
+        'NAME': POSTGRES_DB,
         'HOST': '127.0.0.1',
         'PORT': 5432,
         'USER': POSTGRES_USER,
