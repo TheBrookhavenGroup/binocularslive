@@ -1,22 +1,20 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from .permissions import HasAPIKey
 
 
-class HelloView(APIView):
-    permission_classes = (IsAuthenticated,)
+class PermissionTestView(APIView):
+    permission_classes = (HasAPIKey,)
 
-    def get(self, request):
-        content = {'message': 'Hello, World!'}
-        return Response(content)
+    def post(self, request):
+        return Response({'message': request.data['text']})
 
 
-class ByeView(APIView):
+class SplitView(APIView):
     permission_classes = (HasAPIKey,)
 
     def get(self, request):
-        content = {'message': 'Bye, World!'}
+        content = {'message': 'Use a post request.'}
         return Response(content)
 
     def post(self, request):

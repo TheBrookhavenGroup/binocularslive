@@ -13,4 +13,3 @@ class ApiKeyAdmin(admin.ModelAdmin):
         if not obj.key:
             obj.key = ApiKey.generate_key()
         return super().save_model(request, obj, form, change)
-

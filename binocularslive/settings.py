@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import configparser
 from tbgutils import dt as mc_dt
+from django.core.management.utils import get_random_secret_key
 
 
 config_file = '/Users/ms/.binocularslive'
@@ -18,10 +19,11 @@ if os.path.exists(config_file):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = config['DJANGO']['DEBUG'].lower() == 'true'
 else:
+    SECRET_KEY = get_random_secret_key()
     # This should only be used in github action ci_testing.yml.
     POSTGRES_USER = os.environ['POSTGRES_USER']
     POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
-    POSTGRES_DB = f"{config['POSTGRES']['DB']}_test"
+    POSTGRES_DB = f"binocularslive_test"
 
 # Build paths inside the worth like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'rest_framework',
-    #'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
     'apis',
 ]
 
@@ -89,7 +91,7 @@ WSGI_APPLICATION = 'binocularslive.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'binocularslive',
+        'NAME': POSTGRES_DB,
         'HOST': '127.0.0.1',
         'PORT': 5432,
         'USER': POSTGRES_USER,
