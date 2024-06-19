@@ -25,4 +25,3 @@ class ApiKey(models.Model):
     @classmethod
     def generate_key(cls):
         return binascii.hexlify(os.urandom(20)).decode()
-

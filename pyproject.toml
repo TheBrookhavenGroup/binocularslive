@@ -22,6 +22,7 @@ dependencies = [
     "pycodestyle",
     "djangorestframework",
     "requests",
+    "httpx",
 ]
 version = "0.0.1"
 

@@ -18,4 +18,3 @@ response = requests.post('http://localhost:8000/split/',
                          headers=header,
                          json=data)
 print(response.json())
-

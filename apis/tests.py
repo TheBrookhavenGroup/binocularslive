@@ -2,9 +2,10 @@ from datetime import date, timedelta
 from django.test import TestCase, Client
 from users.models import Member
 from apis.models import ApiKey
+from .multi import sequential_query, run_parallel_query
 
 
-class TestSplitPost(TestCase):
+class SplitBaseTest(TestCase):
     def setUp(self):
         Member.objects.create_user(email='foo@foobar.com', password='12345')
         a = ApiKey.objects.create(email='goo@goobar.com')
@@ -18,8 +19,12 @@ class TestSplitPost(TestCase):
         self.header = {'Authorization': f'Bearer {a.key}'}
 
 
+class TestSplitPermissions(SplitBaseTest):
+
     def post_it(self, data):
-        return self.client.post('/split/', headers=self.header, data=data)
+        return self.client.post('/permission_test/',
+                                headers=self.header,
+                                data=data)
 
     def test_split(self):
         response = self.post_it({'text': 'Hello, World!'})
@@ -65,3 +70,28 @@ class TestSplitPost(TestCase):
 
         response = self.post_it({'text': 'Hello, World!'})
         self.assertEqual(response.status_code, 200)
+
+
+class TestMulti(SplitBaseTest):
+    def setUp(self):
+        super().setUp()
+        self.data = [
+            # ('https://google.com/search?q=hello',
+            #  {"User-Agent": "Mozilla/5.0"}, None),
+            # ('https://yahoo.com', None, None),
+            ('https://httpbin.org/post', None, {'text': 'Hello, World!'}),
+            ('https://httpbin.org/get', None, None),
+            ('https://api.zippopotam.us/us/21208', None, None),
+            ('https://api.zippopotam.us/us/10023', None, None),
+        ]
+
+    def test_sequential(self):
+        responses = sequential_query(self.data)
+        for uhd, response in zip(self.data, responses):
+            self.assertEqual(response.status_code, 200, f"Failed for {uhd}")
+
+    def test_parallel(self):
+        responses = run_parallel_query(self.data)
+        for uhd, response in zip(self.data, responses):
+            print(uhd, response)
+            self.assertEqual(response.status_code, 200, f"Failed for {uhd}")
