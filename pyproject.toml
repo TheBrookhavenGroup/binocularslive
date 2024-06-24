@@ -23,6 +23,7 @@ dependencies = [
     "djangorestframework",
     "requests",
     "httpx",
+    "celery",
 ]
 version = "0.0.1"
 

@@ -1,4 +1,5 @@
 import os
+from os import environ as env
 from pathlib import Path
 import configparser
 from tbgutils import dt as mc_dt
@@ -120,3 +121,23 @@ STATICFILES_DIRS = [
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+# from kombu import Exchange, Queue
+# CELERY_TASK_QUEUES = (
+#     Queue('serial', Exchange('MarcExchange'), routing_key='MarcRoutingkey'),
+# )
+
+if env.get('EAGER_CELERY', False):
+    CELERY_TASK_ALWAYS_EAGER = True
+    CELERY_TASK_EAGER_PROPAGATES = True
+    BROKER_BACKEND = 'memory'
