@@ -6,7 +6,7 @@ from tbgutils import dt as mc_dt
 from django.core.management.utils import get_random_secret_key
 
 
-config_file = '/Users/ms/.binocularslive'
+config_file = os.path.join(env["HOME"], '.binocularslive')
 if os.path.exists(config_file):
     config = configparser.ConfigParser(interpolation=None)
     config.read(config_file)
