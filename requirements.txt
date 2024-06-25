@@ -1,0 +1,10 @@
+django
+psycopg2-binary
+tbgutils
+pycodestyle
+djangorestframework
+requests
+httpx
+celery
+gunicorn
+Redis
