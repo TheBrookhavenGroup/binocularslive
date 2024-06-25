@@ -5,7 +5,7 @@ import configparser
 from tbgutils import dt as mc_dt
 from django.core.management.utils import get_random_secret_key
 
-project_name='binocularslive'
+project_name = 'binocularslive'
 DOMAIN = 'binoculars.live'
 
 config_file = os.path.join(env["HOME"], '.binocularslive')
