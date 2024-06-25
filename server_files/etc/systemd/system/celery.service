@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 Type=forking
-User=django
-Group=django
+User=ubuntu
+Group=ubuntu
 EnvironmentFile=/etc/conf.d/celery
 #EnvironmentFile=/etc/profile.d/django_project.sh
 #Environment=SYSTEMD_LOG_LEVEL=debug

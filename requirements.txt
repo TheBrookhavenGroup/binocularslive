@@ -6,3 +6,4 @@ djangorestframework
 requests
 httpx
 celery
+gunicorn

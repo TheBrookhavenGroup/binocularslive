@@ -19,7 +19,7 @@ Notes:
 3. **DO NOT USE** binocularslive anywhere on your server. 
 
 
-## Get Digital Ocean Ubuntu Droplet
+## Get an Ubuntu Server
 An obvious first step.
 
 - Allocate a Basic 1G/25G Ubuntu Server.
@@ -260,7 +260,9 @@ set +a
 
 ## Redis
 
-This was installed earlier when Ubuntu packages were installed.  There shouldn't  be anything else to do.
+This was installed earlier when Ubuntu packages were installed.  There 
+shouldn't  be anything else to do.  You may have to add user ubuntu to the 
+redis group in /etc/group.
 
 ## Celery
 systemd files for celery
@@ -276,9 +278,9 @@ $ sudo su -
 # systemctl enable celeryserial
 # sudo systemctl daemon-reload
 # mkdir /var/log/celery
-# chown django:django /var/log/celery
+# chown ubuntu:ubuntu /var/log/celery
 # mkdir /var/run/celery
-# chown django:django /var/run/celery
+# chown ubuntu:ubuntu /var/run/celery
 # sudo systemctl restart celery
 # sudo systemctl restart celeryserial
 ```

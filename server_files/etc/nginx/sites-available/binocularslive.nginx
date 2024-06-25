@@ -26,7 +26,7 @@ server {
 
     	location = /favicon.ico { access_log off; log_not_found off; }
         location /ads.txt {
-            root $proejct_dir/static;
+            root $project_dir/static;
         }
     	location /static/ {
     	    root $project_dir;
