@@ -15,7 +15,6 @@ def get_factor():
 
 
 @shared_task(queue='serial')
-#@shared_task()
 def prove_singleton(x):
     logging.info("running prove_singleton")
     f = get_factor()
