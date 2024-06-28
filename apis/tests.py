@@ -5,7 +5,7 @@ from apis.models import ApiKey
 from .multi import sequential_query, run_parallel_query
 
 
-class SplitBaseTest(TestCase):
+class ApiBaseTest(TestCase):
     def setUp(self):
         Member.objects.create_user(email='foo@foobar.com', password='12345')
         a = ApiKey.objects.create(email='goo@goobar.com')
@@ -19,7 +19,7 @@ class SplitBaseTest(TestCase):
         self.header = {'Authorization': f'Bearer {a.key}'}
 
 
-class TestSplitPermissions(SplitBaseTest):
+class TestPermissions(ApiBaseTest):
 
     def post_it(self, data):
         return self.client.post('/permission_test/',
@@ -73,7 +73,7 @@ class TestSplitPermissions(SplitBaseTest):
 
 
 @tag("inhibit_test")
-class TestMulti(SplitBaseTest):
+class TestMulti(ApiBaseTest):
     def setUp(self):
         super().setUp()
         self.data = [
@@ -96,3 +96,14 @@ class TestMulti(SplitBaseTest):
         for uhd, response in zip(self.data, responses):
             print(uhd, response)
             self.assertEqual(response.status_code, 200, f"Failed for {uhd}")
+
+
+class ApiTest(ApiBaseTest):
+    def test_api_post(self):
+        response = self.client.post('/api/',
+                                    headers=self.header,
+                                    data={'text': 'The quick brown fox'})
+        self.assertEqual(response.status_code, 200)
+        expected = (b'{"message":{"status":true,"output":"The quick brown '
+                    b'fox jumps over"}}')
+        self.assertEqual(expected, response.content)
