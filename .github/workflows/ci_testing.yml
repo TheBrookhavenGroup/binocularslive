@@ -52,7 +52,6 @@ jobs:
         EAGER_CELERY: True
       run: celery -A project  worker -E -l DEBUG &
       # run: celery -A binocularslive worker -E -l DEBUG --concurrency=1 -Q serial &
-      run: celery -A binocularslive worker -E -l DEBUG --concurrency=1 -Q serial &
 
     - name: Run tests
       env:
