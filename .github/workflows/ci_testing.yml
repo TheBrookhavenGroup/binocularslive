@@ -50,6 +50,8 @@ jobs:
     - name: Celery
       env:
         EAGER_CELERY: True
+      run: celery -A project  worker -E -l DEBUG &
+      # run: celery -A binocularslive worker -E -l DEBUG --concurrency=1 -Q serial &
       run: celery -A binocularslive worker -E -l DEBUG --concurrency=1 -Q serial &
 
     - name: Run tests
@@ -57,6 +59,7 @@ jobs:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
         POSTGRES_DB: binoculars_test
+        EAGER_CELERY: True
       run:
         pip freeze
         python manage.py migrate && python manage.py test --exclude-tag=inhibit_test
