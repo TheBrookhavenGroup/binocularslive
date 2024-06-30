@@ -9,11 +9,14 @@ project_name = 'binocularslive'
 DOMAIN = 'binoculars.live'
 
 config_file = os.path.join(env["HOME"], '.binocularslive')
+ADMIN_URL = 'admin'
 if os.path.exists(config_file):
     config = configparser.ConfigParser(interpolation=None)
     config.read(config_file)
 
     SECRET_KEY = config['DJANGO']['SECRET_KEY']
+    if 'ADMIN_URL' in config['DJANGO']:
+        ADMIN_URL = config['DJANGO']['ADMIN_URL']
 
     POSTGRES_USER = config['POSTGRES']['USER']
     POSTGRES_PASSWORD = config['POSTGRES']['PASS']
@@ -23,6 +26,7 @@ if os.path.exists(config_file):
     DEBUG = config['DJANGO']['DEBUG'].lower() == 'true'
 else:
     SECRET_KEY = get_random_secret_key()
+
     # This should only be used in github action ci_testing.yml.
     POSTGRES_USER = os.environ['POSTGRES_USER']
     POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
@@ -44,7 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'rest_framework',
-    # 'rest_framework.authtoken',
     'apis',
 ]
 
@@ -143,3 +146,6 @@ if env.get('EAGER_CELERY', False):
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_TASK_EAGER_PROPAGATES = True
     BROKER_BACKEND = 'memory'
+
+
+LLM_MODEL_PACKAGE = "tbg_llm_example"

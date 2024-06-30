@@ -18,6 +18,16 @@ jobs:
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps port 6379 on service container to the host
+          - 6379:6379
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python 3.12
@@ -37,11 +47,18 @@ jobs:
       run:
         pycodestyle --config=./setup.cfg .
 
+    - name: Celery
+      env:
+        EAGER_CELERY: True
+      run: celery -A project  worker -E -l DEBUG &
+      # run: celery -A binocularslive worker -E -l DEBUG --concurrency=1 -Q serial &
+
     - name: Run tests
       env:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
         POSTGRES_DB: binoculars_test
+        EAGER_CELERY: True
       run:
         pip freeze
         python manage.py migrate && python manage.py test --exclude-tag=inhibit_test
